@@ -3,19 +3,9 @@ const expect = require('expect');
 const request = require('supertest');
 const {app} = require('../../app');
 const {Todo} = require('../models/todo');
-const {User} = require('../models/user');
+const { todos, populateTodos } = require('./seed/seed');
 
-const todos = [
-    {title: 'This is a todo 1'},
-    {title: 'This is a todo 2'}
-];
-
-beforeEach(done => {
-    Todo.remove({}).then(() => {
-        return Todo.insertMany(todos)
-    }).then(() => done())
-    .catch(e => done(e));
-});
+beforeEach(populateTodos);
 
 describe('POST /todos', () => {
     it('it should create a new todo', done => {
